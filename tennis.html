@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports News Daily - Football</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General styles */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #000428, #004e92); /* Matching gradient background */
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+  /* Modal Styles */
+  .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            color: #333;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+          /* Article Styles */
+          .articles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .articles article {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .articles article:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .articles img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .articles h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #ffcc00;
+        }
+
+        .articles p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .articles button {
+            background-color: #ffcc00;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .articles button:hover {
+            background-color: #e6b800;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Space between logo and nav */
+        }
+
+        .logo img {
+            max-width: 150px; /* Restrict logo size */
+            height: auto;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px; /* Space between links */
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            font-size: 1em;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #ffcc00; /* Highlight effect on hover */
+        }
+
+        nav a::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ffcc00;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+
+        nav a:hover::before {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: url('img/your-background-image.jpg') no-repeat center center / cover; /* Fit the background */
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .hero h2 {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ffcc00;
+            animation: textSlide 3s infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #ffffff;
+        }
+
+        /* Keyframes for text and fade-in animations */
+        @keyframes textSlide {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+            
+        }
+
+        /* Articles Section */
+        .articles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .articles article {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .articles article:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .articles img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+         /* Footer */
+         footer {
+            margin-top: auto;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .social-icon {
+            color: white;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .social-icon:hover {
+            color: #ffcc00;
+        }
+
+        
+        /* Articles Section */
+        .articles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Wider columns */
+    gap: 30px;
+    padding: 40px 20px;
+    animation: fadeIn 2s ease-in-out;
+    max-width: 1200px; /* Limit section width */
+    margin: 0 auto; /* Center the grid */
+    width: 100%;
+        }
+
+        .articles article {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 800px; /* Limit article width */
+    margin: 0 auto; /* Center individual articles */
+    line-height: 1.6; /* Improve readability with better line height */
+}
+
+        .articles img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px; /* Add spacing below images */
+}
+ 
+         .articles h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px; /* Add spacing below the title */
+    color: #ffcc00; /* Highlight headings for better readability */
+}
+
+          .articles p {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+          .articles button {
+    background-color: #ffcc00;
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+          .articles button:hover {
+    background-color: #e6b800;
+}
+
+
+        
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="imghome/Colorful Live News Free Logo.png" alt="Sports News Daily Logo">
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="football.html">Football</a>
+            <a href="basketball.html">Basketball</a>
+            <a href="tennis.html">Tennis</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+   
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>Tennis News</h2>
+        <p>Get the latest updates on Tennis leagues and players In The One and Only Sports News.</p>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <section class="articles">
+    
+            <article>
+                <img src="imagetennis/Tennis 1.webp" alt="Tennis  News Image">
+                <h3>"I retire from tennis, it's shameful to lose to this guy Sinner, I think he's really bad"</h3>
+                <button onclick="openModal('Steve Johnson')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagetennis/Tennis 2.jpg" alt="Tennis  News Image">
+                <h3>Jannik Sinner registers big record that eluded 'Big 3' of tennis after super 2024 season</h3>
+                <button onclick="openModal('Jannik Sinner')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagetennis/Tennis 3.jpg" alt="Tennis  News Image">
+                <h3>Novak Djokovic appoints former rival Andy Murray as his new coach</h3>
+                <button onclick="openModal('Novak Djokovic')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagetennis/Tennis4.jpg" alt="Tennis  News Image">
+                <h3>Billie Jean King Cup 2024: All you need to know about prize money</h3>
+                <button onclick="openModal('Canada are the defending champions.')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagetennis/Tennis5.jpg" alt="Tennis  News Image">
+                <h3>Frances Tiafoe handed hefty fine for umpire outburst at Shanghai Masters, watch incident</h3>
+                <button onclick="openModal('Frances Tiafoe')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagetennis/Tennis6.jpg" alt="Tennis  News Image">
+                <h3>Five opponents Rafael Nadal has faced most in Grand Slam finals</h3>
+                <button onclick="openModal('Rafael Nadal,')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagetennis/Tennis7.jpg" alt="Tennis  News Image">
+                <h3>Five opponents Roger Federer has faced most in Grand Slam finals</h3>
+                <button onclick="openModal('Roger Federer')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagetennis/Tennis 8.jpg" alt="Tennis  News Image">
+                <h3>USA was the first nation to win more than 10 Billie Jean King Cup titles.</h3>
+                <button onclick="openModal('Billie Jean King Cup')">Read More</button>
+            </article>
+
+        </section>
+    </main>
+
+       <!-- Modal for Steve Johnson -->
+       <div id="Steve Johnson" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Steve Johnson')">&times;</span>
+            <p>Me puts things in their place and makes perspectives change. Just ask Steve Johnson, whose humility in recounting what he thought the first time he faced Jannik Sinner has left a truly funny anecdote symptomatic of the Italian's evolution. They faced off in Rome when the current number 1 was 17 years old, and the American had no inkling whatsoever of what was to come.
+
+                There are stories we may never know that could not only amuse us but also illustrate how things can change rapidly. Jannik Sinner was never a diamond in the rough dominating the lower levels of Italian tennis, becoming a promise of the global sport. His emergence was abrupt, breaking into the Challenger circuit at 17 years old with unprecedented strength and quickly transitioning to the best tournaments in the world. Many wondered where this boy had come from, and some, like Steve Johnson, didn't even consider that he could become one of the best in the world.</p>
+        </div>
+    </div>
+
+       <!-- Modal for Jannik Sinner  -->
+       <div id="Jannik Sinner" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Jannik Sinner')">&times;</span>
+            <p>Jannik Sinner is also one of only two players to win both the ATP Finals and Next Gen Finals titles.
+                Jannik Sinner making his way through the ranks to finish on top is one of the highlights of the 2024 season. He finished the year with eight titles and a 73-6 record, the most since Andy Murray won 78 matches in 2016. 
+                
+                The 2024 season was all about the Italian, as his successes this season heralded a change of the old guard. Sinner, the first from his country to become ATP World No. #1, can count two Grand Slams, the ATP Finals and the Davis Cap, among his exploits in 2024. Jannik Sinner and Stefanos Tsitispas are the only two players to have won the Next Gen Finals and the ATP Finals.</p>
+        </div>
+    </div>
+
+       <!-- Modal for Novak Djokovic  -->
+       <div id="Novak Djokovic" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Novak Djokovic')">&times;</span>
+            <p>Andy Murray will coach Novak Djokovic through to the Australia Open.
+                November 23 marked the start of an unexpected partnership as the 24-time Grand Slam champion Novak Djokovic joined hands with Great Britain legend Andy Murray, who only recently bid adieu to the sport post the Paris Olympics. Murray is expected to coach the Serbian at least till the next Australian Open in January 2025.
+                
+                Murray, 37, has had a stellar career marked by significant accomplishments, including winning three Grand Slam titles—Wimbledon (2013, 2016) and the US Open (2012)—and achieving the World No. #1 ranking in 2016. Additionally, he is a two-time Olympic singles gold medalist, triumphing at London 2012 and Rio 2016.
+                
+                </p>
+        </div>
+    </div>
+
+       <!-- Modal for Canada are the defending champions.  -->
+       <div id="Canada are the defending champions." class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Canada are the defending champions.')">&times;</span>
+            <p>Team Canada, who earned their first victory when they lifted the trophy at the 2023 Billie Jean King Cup, travel to Malaga as the defending champions. The Canadians got the better of Italy 2-0 in Seville, Spain, for their maiden triumph.
+
+                The Billie Jean King Cup 2024 was to get underway on November 13, with five-time champions Spain led by Paula Badosa to take on Team Poland with World No. #2 Iga Swiatek at the helm. Unforeseen weather conditions pushed back the opening tie between Spain and Poland to Friday, November 15.
+                
+                Also Read: Poland vs Spain tie at Billie Jean King Cup 2024 Finals postponed due to severe weather conditions
+                
+                At the Billie Jean King Cup 2024 Finals, Japan and Romania will face each other for the first time in the competition’s history. Japan has reached the finals for the first time following a 3-1 win over Kazakhstan. The Romanians overcame Ukraine 3-2 to join Japan as first-time finalists at the team event. Japan will be without the services of four-time Grand Slam winner and former World No. #1 Naomi Osaka.
+                
+                The United States, with 18 titles under their belt, have not won a title since 2017, and their most recent appearance in a final was in 2021, where they lost to Czechia 2-1. The Czech team last won the trophy in 2018 and appeared in the finals of the 2022 and 2023 editions.
+                
+                Daniella Collins (USA) and Linda Noskova (Czechia) headline their respective sides as the two teams face off for the sixteenth time. USA leads 10-5 in their head-to-head</p>
+        </div>
+    </div>
+
+       <!-- Modal for Frances Tiafoe -->
+       <div id="Frances Tiafoe" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Frances Tiafoe')">&times;</span>
+            <p>Frances Tiafoe, usually a cool customer, courted controversy at the Shanghai Masters last month. The American directed verbal abuse at chair umpire Jimmy Pinoargote after losing the third-round match to Roman Safiullin. The trigger for the incident was a time violation warning on Tiafoe’s serve, with the score tied at 5-5 in the third set tiebreaker.
+
+                Following his 7-5, 5-7, 6-7(5) loss to 61st-ranked Roman Safiullin, Tiafoe targeted the chair umpire in an expletive-filled rant. The Maryland native accused the official of stealing the match from him.</p>
+        </div>
+    </div>
+
+       <!-- Modal for Rafael Nadal -->
+       <div id="Rafael Nadal," class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Rafael Nadal,')">&times;</span>
+            <p>The King of Clay featured in 30 Grand Slam finals.
+                Rafael Nadal, also known as the King of Clay is a 22-time Grand Slam champion only behind Novak Djokovic (who has won 24 times) in men’s singles tennis history. The Spaniard has dominated the Roland Garros having won the French Open 14 times! Nadal and Roger Federer, both reached their peak at the same time and hence fought a series of Grand Slam finals until Djokovic burst into the act, resulting in the formation of the big three.
+                
+                Nadal’s last Grand Slam major victory came at the 2022 French Open when he beat Casper Ruud. The tennis legend reached the grand slam finals for the first time in 2005 at the same event.</p>
+        </div>
+    </div>
+
+       <!-- Modal for Roger Federer  -->
+       <div id="Roger Federer" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Roger Federer')">&times;</span>
+            <p>Federer had reached 31 Grand Slam finals in his career.
+                Roger Federer was a wizard on the court, with more than a few tricks up his sleeve. He possessed an unmatchable aura that emanated whenever he walked out onto a tennis court. The Swiss maestro held in rapture those who turned up to watch him play.
+                
+                Federer continued to dazzle spectators over the course of his 24-year career with his overpowering forehand combined with an elegant backhand that was the best in the business which had aged like fine wine.</p>
+        </div>
+    </div>
+
+    <!-- Modal for Billie Jean King Cup -->
+    <div id="Billie Jean King Cup" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Billie Jean King Cup')">&times;</span>
+            <p>USA was the first nation to win more than 10 Billie Jean King Cup titles.
+                The Billie Jean King Cup (or the BJK Cup) began life as the Federation Cup in 1963. It transitioned to the Fed Cup in 1995 and, in September 2020, took on the name Billie Jean King Cup in honour of former World No. 1 Billie Jean King. The rebranding recognises Billie Jean King’s achievements as a player and role model who fought for equality in women’s sports.
+                
+                Billie Jean King Cup is the biggest women’s team event in tennis and is held every year in different locations. It is similiar to the men’s Davis Cup as the top players from all over the globe compete for their respective nations. Initially featuring only a handful of countries, it has grown into a global competition with more than 100 nations participating.
+                
+                </p>
+        </div>
+    </div>
+
+       <!-- Footer -->
+       <footer>
+        <div class="social-icons">
+            <a href="https://www.facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.linkedin.com" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.twitter.com" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p>&copy; 2024 Sports News Daily. All rights reserved.</p>
+    </footer>
+   <!-- JavaScript for Modal Functionality -->
+   <script>
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Close the modal when clicking outside the modal content
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            closeModal('Steve Johnson');
+            closeModal('Jannik Sinner');
+            closeModal('Novak Djokovic');
+            closeModal('Canada are the defending champions.');
+            closeModal('Frances Tiafoe');
+            closeModal('Rafael Nadal,');
+            closeModal('Roger Federe');
+            closeModal('Billie Jean King Cup');
+        }
+    } 
+    </script>
+</body>
+</html>
+

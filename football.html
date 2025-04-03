@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports News Daily - Football</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General styles */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #000428, #004e92); /* Matching gradient background */
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+  /* Modal Styles */
+  .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            color: #333;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+          /* Article Styles */
+          .articles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .articles article {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .articles article:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .articles img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .articles h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #ffcc00;
+        }
+
+        .articles p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .articles button {
+            background-color: #ffcc00;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .articles button:hover {
+            background-color: #e6b800;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Space between logo and nav */
+        }
+
+        .logo img {
+            max-width: 150px; /* Restrict logo size */
+            height: auto;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px; /* Space between links */
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            font-size: 1em;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #ffcc00; /* Highlight effect on hover */
+        }
+
+        nav a::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ffcc00;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+
+        nav a:hover::before {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: url('img/your-background-image.jpg') no-repeat center center / cover; /* Fit the background */
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .hero h2 {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ffcc00;
+            animation: textSlide 3s infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #ffffff;
+        }
+
+        /* Keyframes for text and fade-in animations */
+        @keyframes textSlide {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+            
+        }
+
+        /* Articles Section */
+        .articles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .articles article {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .articles article:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .articles img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+             /* Footer */
+             footer {
+            margin-top: auto;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .social-icon {
+            color: white;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .social-icon:hover {
+            color: #ffcc00;
+        }
+        
+        /* Articles Section */
+        .articles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Wider columns */
+    gap: 30px;
+    padding: 40px 20px;
+    animation: fadeIn 2s ease-in-out;
+    max-width: 1200px; /* Limit section width */
+    margin: 0 auto; /* Center the grid */
+    width: 100%;
+        }
+
+        .articles article {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 800px; /* Limit article width */
+    margin: 0 auto; /* Center individual articles */
+    line-height: 1.6; /* Improve readability with better line height */
+}
+
+        .articles img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px; /* Add spacing below images */
+}
+ 
+         .articles h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px; /* Add spacing below the title */
+    color: #ffcc00; /* Highlight headings for better readability */
+}
+
+          .articles p {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+          .articles button {
+    background-color: #ffcc00;
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+          .articles button:hover {
+    background-color: #e6b800;
+}
+
+
+        
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="imghome/Colorful Live News Free Logo.png" alt="Sports News Daily Logo">
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="football.html">Football</a>
+            <a href="basketball.html">Basketball</a>
+            <a href="tennis.html">Tennis</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>Football News</h2>
+        <p>Get the latest updates on football leagues and players In The One and Only Sports News.</p>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <section class="articles">
+            <!-- Article 1 -->
+            <article>
+                <img src="imagefootball/Football1.jpg" alt="Football  News Image">
+                <h3>UST hits FEU players behavior after UAAP jr. football win</h3>
+                <button onclick="openModal('UST hits FEU players')">Read More</button>
+            </article>
+            
+            <article>
+                <img src="imagefootball/Football2.jpg" alt="Football  News Image">
+                <h3>UP football player Yoro Sangare, 22, dies after collapsing on campus</h3>
+                <button onclick="openModal('Yoro Sangare death')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagefootball/Football3.jpg" alt="Football  News Image">
+                <h3>Former UAAP juniors football MVP dies in Masbate blast</h3>
+                <button onclick="openModal('Kieth Absalon was killed in a landmine')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagefootball/Football4.jpg" alt="Football  News Image">
+                <h3>Ateneo football recruit Yana Bautista dies of COVID-19 at 17</h3>
+                <button onclick="openModal('Yana Bautista passed away')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagefootball/Football5.jpg" alt="Football  News Image">
+                <h3>Dino Aldeguer son Andres continues to make name in football with top rookie award</h3>
+                <button onclick="openModal('ANDRES Aldeguer')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagefootball/Football6.jpg" alt="Football  News Image">
+                <h3>FEU nips NU to reign as UAAP juniors football kings for ninth straight time</h3>
+                <button onclick="openModal('Far Eastern University-Diliman')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagefootball/Football7.jpg" alt="Football  News Image">
+                <h3>NU football team hopes UniGames, pocket tournament campaigns lead to UAAP Final Four stint</h3>
+                <button onclick="openModal('NU football team')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagefootball/Football8.jpg" alt="Football  News Image">
+                <h3>'Lively' Yana Bautista had life, career all planned out before COVID struck</h3>
+                <button onclick="openModal('Lively Yana Bautista')">Read More</button>
+            </article>
+
+        </section>
+    </main>
+
+    <!-- Modal for UST hits FEU players  -->
+    <div id="UST hits FEU players" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('UST hits FEU players')">&times;</span>
+            <p>The celebrations that followed Far Eastern University-Diliman's title-clinching 3-0 win over the University of Santo Tomas in UAAP juniors' football led to an altercation between members of opposing teams at the University of the Philippines Football Field on Thursday.</p>
+        </div>
+    </div>
+
+    <!-- Modal for Yoro Sangare death  -->
+    <div id="Yoro Sangare death" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Yoro Sangare death')">&times;</span>
+            <p>The 22-year-old Physical Education major's demise happened on the day of the Maroons' UAAP Season 85 men's football match against Far Eastern University at the UP Football Field.
+
+                Sangare, who was sidelined for the season due to an undisclosed injury suffered in the preseason, was walking near his dormitory when he collapsed, UP College of Human Kinetics Dean Francis "Kiko" Diaz said.</p>
+        </div>
+    </div>
+
+    <!-- Modal for Kieth Absalon was killed in a landmine -->
+    <div id="Kieth Absalon was killed in a landmine" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Kieth Absalon was killed in a landmine')">&times;</span>
+            <p>FAR Eastern University men's varsity player Kieth Absalon was killed in a landmine explosion on Sunday morning in Masbate.
+
+                He was 21.
+                
+                Police reports said Absalon and his cousin Nolven, 40, perished after being hit by sharpnels from an improvised explosive device (IED) that exploded in Purok 4, Brgy. Anas, Masbate.
+                
+                The Philippine National Police-Bicol accused the New People's Army (NPA) of being responsible for planting the IED.
+                
+                Chrisbin, who is Nolven's son, also sustained injuries but survived the blast. He is now confined in a hospital.</p>
+        </div>
+    </div>
+
+    <!-- Modal for Yana Bautista passed away  -->
+    <div id="Yana Bautista passed away" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Yana Bautista passed away')">&times;</span>
+            <p>ANOTHER young talent succumbs to the deadly COVID-19.
+
+                Yana Bautista, a football player from Miriam College and just committed to Ateneo, passed away on Wednesday.
+                
+                She was 17.
+                
+                Her sister, Philippine women's national football team stud Martie Bautista announced the news on Facebook on Thursday.
+                
+                "These past few months have been difficult for Yana. She was diagnosed with ADEM that was further complicated by COVID-19. Many challenges continued to surface where much of them left us extremely exhausted -- especially for my little sister," she wrote.
+                
+                "It is to our despondency to announce that my sister is now finally at peace and with God."</p>
+        </div>
+    </div>
+
+    <!-- Modal for ANDRES Aldeguer  -->
+    <div id="ANDRES Aldeguer" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('ANDRES Aldeguer')">&times;</span>
+            <p>ANDRES Aldeguer continued to make his own name in a different sport as the La Salle-Zobel striker was recently named UAAP Season 82 Juniors Football Rookie of the Year.
+
+                The son of La Salle basketball hero Dino Aldeguer emerged as the Junior Green Booters’ go-to guy right in his first season, firing five goals to finish just one shy of Best Striker and FEU counterpart Jacob Garciano’s output.
+                
+                Aldeguer’s exploits still proved key for the Junior Green Booters in finishing third this season.
+                
+                </p>
+        </div>
+    </div>
+
+    <!-- Modal for Far Eastern University-Diliman -->
+    <div id="Far Eastern University-Diliman" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Far Eastern University-Diliman')">&times;</span>
+            <p>POCHOLO Bugas scored the game-winner as Far Eastern University-Diliman beat National University, 1-0, on Thursday at the FEU-Diliman field to rule the UAAP juniors football tournament for the ninth straight time.
+
+                Bugas made his seventh goal of the season in the 16u minute and was later given the Best Striker award as the Baby Tamaraws continued their dynastic run in the juniors football competition.
+                
+                FEU’s Marc Jessar Tobias was named MVP, teammate Kart Talaroc got the nod as Rookie of the Year, Kristian Bumatay was Best Goalkeeper, Kieth Absalon was Best Midfielder Award and UST’s Dominic Absalon was named Best Defender.</p>
+        </div>
+    </div>
+
+    <!-- Modal for NU football team  -->
+    <div id="NU football team" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('NU football team')">&times;</span>
+            <p>
+                THE National University football team is hoping to finally make the UAAP Final Four after seeing action in two local tournaments.
+                
+                The Bulldogs played in a mini-pocket tournament in Cebu before proceeding to Dumaguete City for the UniGames that features top collegiate teams such as University of the Philippines, La Salle, College of St. Benilde, and Bacolod-based schools University of Negros Occidental-Recoletos and defending champion University of St. La Salle.
+                
+                Ateneo, a football power in college, however, didn’t send a team in Dumaguete, with Polytechnic University of the Philippines and University of Perpetual Help completing the cast.
+                
+                “This is actually in preparation talaga for the UAAP which starts this January,” said team manager BJ Manalo.
+                
+                The school organized in the pocket tournament that featured top football clubs from Cebu.
+                
+                “OK lang na matalo sa mga ganyang tournaments. Ang importante kasi yung training for the UAAP kaya tayo kumuha ng mga malalakas na teams,” said Manalo. “At the same time, para hindi masayang yung biyahe on the way sa Dumaguete, naglaro muna kami dito.”</p>
+        </div>
+    </div>
+
+
+    <!-- Modal for Lively Yana Bautista -->
+    <div id="Lively Yana Bautista" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Lively Yana Bautista')">&times;</span>
+            <p>GONE too soon.
+
+                The death of Yana Bautista on Thursday came as a shock both for football and Philippine sports, which, until then, had been spared of the wrath of the coronavirus (COVID-19) disease.
+                
+                No one expected Bautista, just 17 and so 'lively, stylish and comical,' according to her sister Martie, to become the athlete that would put a face to a dreaded outbreak that has claimed more than 2,000 lives in the country.
+                
+                Yana was a promising talent who people close to her expected to follow her footsteps Martie, the former Ateneo courtside reporter and member of the Philippine women's national football team.</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="social-icons">
+            <a href="https://www.facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.linkedin.com" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.twitter.com" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p>&copy; 2024 Sports News Daily. All rights reserved.</p>
+    </footer>
+
+   <!-- JavaScript for Modal Functionality -->
+   <script>
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Close the modal when clicking outside the modal content
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            closeModal('UST hits FEU players');
+            closeModal('Yoro Sangare death');
+            closeModal('Kieth Absalon was killed in a landmine');
+            closeModal('Yana Bautista passed away');
+            closeModal('ANDRES Aldeguer');
+            closeModal('Far Eastern University-Diliman');
+            closeModal('NU football team');
+            closeModal('Lively Yana Bautista');
+        }
+    } 
+    </script>
+</body>
+</html>
+

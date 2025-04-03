@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports News Daily - Football</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General styles */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #000428, #004e92); /* Matching gradient background */
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+  /* Modal Styles */
+  .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 800px;
+            color: #333;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+          /* Article Styles */
+          .articles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .articles article {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .articles article:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .articles img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .articles h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #ffcc00;
+        }
+
+        .articles p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .articles button {
+            background-color: #ffcc00;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .articles button:hover {
+            background-color: #e6b800;
+        }
+
+        /* Header */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Space between logo and nav */
+        }
+
+        .logo img {
+            max-width: 150px; /* Restrict logo size */
+            height: auto;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px; /* Space between links */
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            font-size: 1em;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #ffcc00; /* Highlight effect on hover */
+        }
+
+        nav a::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #ffcc00;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+
+        nav a:hover::before {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: url('img/your-background-image.jpg') no-repeat center center / cover; /* Fit the background */
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .hero h2 {
+            font-size: 3em;
+            font-weight: bold;
+            color: #ffcc00;
+            animation: textSlide 3s infinite alternate;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #ffffff;
+        }
+
+        /* Keyframes for text and fade-in animations */
+        @keyframes textSlide {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+            
+        }
+
+        /* Articles Section */
+        .articles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .articles article {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .articles article:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .articles img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+            /* Footer */
+            footer {
+            margin-top: auto;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .social-icon {
+            color: white;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .social-icon:hover {
+            color: #ffcc00;
+        }
+
+        /* Articles Section */
+        .articles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Wider columns */
+    gap: 30px;
+    padding: 40px 20px;
+    animation: fadeIn 2s ease-in-out;
+    max-width: 1200px; /* Limit section width */
+    margin: 0 auto; /* Center the grid */
+    width: 100%;
+        }
+
+        .articles article {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 800px; /* Limit article width */
+    margin: 0 auto; /* Center individual articles */
+    line-height: 1.6; /* Improve readability with better line height */
+}
+
+        .articles img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px; /* Add spacing below images */
+}
+ 
+         .articles h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px; /* Add spacing below the title */
+    color: #ffcc00; /* Highlight headings for better readability */
+}
+
+          .articles p {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+}
+
+          .articles button {
+    background-color: #ffcc00;
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+          .articles button:hover {
+    background-color: #e6b800;
+}
+
+
+        
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="imghome/Colorful Live News Free Logo.png" alt="Sports News Daily Logo">
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="football.html">Football</a>
+            <a href="basketball.html">Basketball</a>
+            <a href="tennis.html">Tennis</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>Basketball News</h2>
+        <p>Get the latest updates on Basketball leagues and players In The One and Only Sports News.</p>
+    </section>
+
+    <!-- Main Content -->
+    <main>
+        <section class="articles">
+            <!-- Article 1 -->
+            <article>
+                <img src="imagebasketball/pba1.avif" alt="Basketball  News Image">
+                <h3>PBA Finals: TNT takes first of two chances to send Ginebra packing</h3>
+                <button onclick="openModal('championsModal')">Read More</button>
+            </article>
+            
+            <article>
+                <img src="imagebasketball/pba2.avif" alt="Basketball  News Image">
+                <h3>PBA Finals: ‘Winning instincts’ show up for Calvin Oftana in Game 5</h3>
+                <button onclick="openModal('scorerModal')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagebasketball/pba3.avif" alt="Basketball  News Image">
+                <h3>Tim Cone admits Ginebra got ‘little too satisfied’</h3>
+                <button onclick="openModal('Basketball')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagebasketball/Pba4(2).avif" alt="Basketball  News Image">
+                <h3>PBA Commissioners Cup </h3>
+                <button onclick="openModal('PBA Commissioners Cup')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagebasketball/pba7.avif" alt="Basketball  News Image">
+                <h3>Why Cone resisted fans' chants, Chua advice to field Dwight Ramos</h3>
+                <button onclick="openModal('Chua advice')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagebasketball/pba5.avif" alt="Basketball  News Image">
+                <h3>SMB trades Terrence Romeo, Vic Manuel to Dyip for Juami Tiongson, Cahilig</h3>
+                <button onclick="openModal('SMB trades Terrence Romeo')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagebasketball/pba6.avif" alt="Basketball  News Image">
+                <h3>Romeo and even Manuel won’t stay long at Terrafirma</h3>
+                <button onclick="openModal('Romeo and even Manuel')">Read More</button>
+            </article>
+
+            <article>
+                <img src="imagebasketball/pba8.avif" alt="Basketball  News Image">
+                <h3>Gilas flexes size, depth in emphatic home win over Hong Kong</h3>
+                <button onclick="openModal('Gilas flexes size')">Read More</button>
+            </article>
+
+        </section>
+    </main>
+
+     <!-- Modal for Champions -->
+     <div id="championsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('championsModal')">&times;</span>
+            <p> PBA Finals: TNT takes first of two chances to send Ginebra packing. Poy Erram was heading back to the TNT dugout following a lopsided Game 5 victory that put the Tropang Giga one step away from repeating as champions of the PBA Governors' Cup when a Barangay Ginebra fan couldn't help but shout at the veteran center.</p>
+        </div>
+    </div>
+
+     <!-- Modal for Score-->
+    <div id="scorerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('scorerModal')">&times;</span>
+            <p> MANILA, Philippines—Coming off a frustrating loss in Game 4 of the PBA Governors’ Cup Finals, TNT’s Calvin Oftana bounced back big to push the Tropang Giga on the cusp of back-to-back titles.
+
+                Although not scoring more after finishing with 26 in the previous game—Oftana was more efficient on Wednesday night in Game 5, which he credits to his winning instinct.</p>
+        </div>
+    </div>
+
+      <!-- Modal for Basketball -->
+    <div id="Basketball" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Basketball')">&times;</span>
+            <p> MANILA, Philippines—With momentum on Ginebra’s side after trying the series, coach Tim Cone knows what went wrong for his the Gin Kings in Game 5 of the PBA Governors’ Cup Finals. After two rousing victories, the Gin Kings saw themselves on the wrong end of a lopsided loss as Tropang Giga took a commanding 3-2 lead in the best-of-seven affair.
+
+                “It doesn’t even matter that we lost by thirty points, the bottom line is we lost,” said a distraught Cone after their 99-72 loss at Araneta Coliseum on Wednesday.</p>
+        </div>
+    </div>
+
+      <!-- Modal for PBA Commissioners Cup -->
+    <div id="PBA Commissioners Cup" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('PBA Commissioners Cup')">&times;</span>
+            <p>THE PBA Commissioner’s Cup opens on Wednesday with two interesting match-ups, including a highly-touted player making his league debut and a guest team commencing its campaign.
+
+            </p>
+        </div>
+    </div>
+
+      <!-- Modal for Chua advice -->
+    <div id="Chua advice" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Chua advice')">&times;</span>
+            <p>But Cone said he resisted the call of fans as it was too risky to field Ramos especially since he will still play in the Japan B.League after this window. Cone said Ramos tried to give it a go during practice on Saturday, but the strained calf affected his mobility</p>
+        </div>
+    </div>
+
+      <!-- Modal for SMB trades Terrence Romeo -->
+      <div id="SMB trades Terrence Romeo" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('SMB trades Terrence Romeo')">&times;</span>
+            <p>TWO days before the PBA Commissioner’s Cup opens, San Miguel pulled off a major deal, trading veterans Terrence Romeo and Vic Manuel to Terrafirma for youngsters Andreas Cahilig and Juami Tiongson.
+
+                Both relegated to off-the-bench roles in the Beermen rotation, Romeo and Manuel are expected to get the playing minutes they need at the Dyip’s camp after the trade that was approved by the PBA Commissioner's Office on Monday.</p>
+        </div>
+    </div>
+
+     <!-- Modal for Romeo and even Manuel -->
+     <div id="Romeo and even Manuel" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Romeo and even Manuel')">&times;</span>
+            <p>Manuel is reportedly being eyed by the Nueva Ecija Vanguards in the MPBL after his contract expires at the end of the conference while Romeo might take his act abroad - an opportunity he turned down a few years back owing to his loyalty to San Miguel big boss Ramon S. Ang.</p>
+        </div>
+    </div>
+
+    <!-- Modal for 'Gilas flexes size -->
+    <div id="Gilas flexes size" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('Gilas flexes size')">&times;</span>
+            <p>Kai Sotto and June Mar Fajardo got things going early for Gilas, imposing their height advantage against a smaller Hong Kong team that mostly leaned on its outside shots to produce points and stay in the game</p>
+        </div>
+    </div>
+
+      <!-- Footer -->
+    <footer>
+        <div class="social-icons">
+            <a href="https://www.facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.linkedin.com" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.twitter.com" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p>&copy; 2024 Sports News Daily. All rights reserved.</p>
+    </footer>
+
+   <!-- JavaScript for Modal Functionality -->
+   <script>
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Close the modal when clicking outside the modal content
+    window.onclick = function(event) {
+        if (event.target.classList.contains('modal')) {
+            closeModal('championsModal');
+            closeModal('scorerModal');
+            closeModal('Basketball');
+            closeModal('PBA Commissioners Cup');
+            closeModal('Chua advice');
+            closeModal('Romeo and even Manuel');
+            closeModal('Gilas flexes size');
+        }
+    } 
+    </script>
+    
+</body>
+</html>
+

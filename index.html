@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f0f5;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #222;
+            color: #fff;
+            padding: 10px 20px;
+        }
+
+        .menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu li {
+            margin: 0 10px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(to right, #ff6a00, #ee0979);
+            color: white;
+        }
+
+        /* Typing Animation */
+        .hero h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 0;
+            display: inline-block;
+            overflow: hidden;
+            border-right: 0.15em solid #fff;
+            white-space: nowrap;
+            animation: typing 3s steps(30, end), blink 0.7s step-end infinite;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .hero h2:hover {
+            color: #ffeb3b;
+            text-shadow: 0 0 10px #ff6a00, 0 0 20px #ee0979;
+            transform: scale(1.05);
+        }
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink {
+            from, to {
+                border-color: transparent;
+            }
+            50% {
+                border-color: white;
+            }
+        }
+
+        .content {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* Left Side Articles */
+        .articles {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .articles article {
+            text-align: center;
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .articles img {
+            max-width: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        /* Right Side Layout */
+        .right-side {
+            flex: 0.5;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .right-side h3 {
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .right-side ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .right-side li {
+            margin: 10px 0;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+       /* General styling for the right-side container */
+        .right-side {
+            background-color: #f9f9f9; 
+            border: 1px solid #ddd;  
+            border-radius: 8px;     
+            padding: 20px;            
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 300px;        
+            font-family: Arial, sans-serif;
+        }
+
+        /* Heading styling */
+        .right-side h3 {
+            font-size: 20px;   
+            color: #333;          
+            margin-bottom: 15px;     
+            text-transform: uppercase; 
+            letter-spacing: 1px;   
+        }
+
+        /* Unordered list styling */
+        .right-side ul {
+            list-style: none;       
+            padding: 0;              
+            margin: 0;                
+        }
+
+        /* List items styling */
+        .right-side ul li {
+            padding: 10px 0;         
+            border-bottom: 1px solid #eee;
+            color: #555;             
+            cursor: pointer;         
+            transition: color 0.3s ease; 
+        }
+
+        /* Hover effect for list items */
+        .right-side ul li:hover {
+            color: #007BFF;         
+            font-weight: bold;       
+        }
+
+        /* Last item without border */
+        .right-side ul li:last-child {
+            border-bottom: none;  
+        }
+
+
+        /* Bottom Layout */
+        .bottom-layout {
+            padding: 20px;
+            background: #ff6a00;
+            color: white;
+            text-align: center;
+        }
+
+        .bottom-layout h3 {
+            margin-bottom: 10px;
+        }
+
+        .extra-layout {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .extra-layout .section {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            text-align: left;
+        }
+
+        .extra-layout .section h4 {
+            margin-bottom: 10px;
+            color: #222;
+        }
+
+        .extra-layout .section p {
+            margin: 0;
+        }
+
+         /* Footer */
+         footer {
+            margin-top: auto;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .social-icon {
+            color: white;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .social-icon:hover {
+            color: #ffcc00;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .right-side {
+                flex: 1;
+                margin-top: 20px;
+            }
+
+            .extra-layout {
+                flex-direction: column;
+            }
+        }
+            .hero p {
+            font-size: 1.2rem;
+            color: #ffeb3b;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+            margin-top: 10px;
+            animation: fadeInSlide 2s ease-in-out;
+            letter-spacing: 1px;
+            line-height: 1.5;
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .hero p:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 15px #ff6a00, 0 0 20px #ee0979;
+        }
+
+        /* Keyframes for Fade-In and Slide Animation */
+        @keyframes fadeInSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }   
+        .articles article p {
+        font-size: 14px; 
+        color: #444; 
+        line-height: 1.6;
+        margin-top: 10px; 
+        margin-bottom: 10px; 
+        background: linear-gradient(to right, #ffecd2, #fcb69f); 
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: justify; 
+        transition: transform 0.3s, box-shadow 0.3s; 
+        }
+
+        .articles article p:hover {
+            transform: scale(1.05); 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+        }
+       
+        .logo img {
+            max-width: 150px; /* Restrict logo size */
+            height: auto;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="imghome/Colorful Live News Free Logo.png" alt="Sports News Daily Logo">
+        </div>
+        <nav>
+            <ul class="menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="football.html">Football</a></li>
+                <li><a href="basketball.html">Basketball</a></li>
+                <li><a href="tennis.html">Tennis</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="hero">
+            <h2>Experience the Thrill of Sports</h2>
+            <p>Stay updated with the latest in the world of sports.</p>
+        </div>
+
+        <section class="content">
+            <!-- Left Side: Articles -->
+            <div class="articles">
+                <article>
+                    <img src="imagefootball/Football7.jpg" alt="Football">
+                    <h3>Latest Football News</h3>
+                    <p>Catch up on all the recent football matches, scores, and highlights.</p>
+                  
+                </article>
+                <article>
+                    <img src="imagebasketball/pba1.avif" alt="Basketball">
+                    <h3>Basketball Updates</h3>
+                    <p>Get the latest updates from NBA, Euroleague, and more!</p>
+              
+                </article>
+                <article>
+                    <img src="imagetennis/Tennis6.jpg" alt="Tennis">
+                    <h3>Tennis Highlights</h3>
+                    <p>Discover top tennis news, player updates, and tournament insights.</p>
+                
+                </article>
+            </div>
+
+            <!-- Right Side: New Layout -->
+            <div class="right-side">
+                <h3>Top Stories</h3>
+                <ul>
+                    <li>Messi scores a hat-trick to secure the win!</li>
+                    <li>Nadal announces return to the tennis court.</li>
+                    <li>Golden State Warriors dominate in the NBA Finals.</li>
+                    <li>New football transfer rumors shake the market.</li>
+                </ul>
+                <div class="additional-article">
+                    <h4>Upcoming Events</h4>
+                    <p>Don't miss the Champions League finals next weekend!</p>
+                    <img src="imghome/Volleyball.jpeg" alt="Champions League" style="width: 100%; border-radius: 10px; margin: 10px 0;">
+                
+                </div>
+
+                <div class="additional-article">
+                    <h4>Upcoming Events</h4>
+                    <p>Creamline's dominance vs Choco Mucho's unfulfilled potential</p>
+                    <img src="imghome/volleyball5.jpg" alt="Champions League" style="width: 100%; border-radius: 10px; margin: 10px 0;">
+                
+                </div>
+
+                <div class="additional-article">
+                    <h4>Upcoming Events</h4>
+                    <p>PLDT takes early wins, but eyes bigger challenges ahead</p>
+                    <img src="imghome/Volleyball2.jpg" alt="Champions League" style="width: 100%; border-radius: 10px; margin: 10px 0;">
+                
+                </div>
+
+                <div class="additional-article">
+                    <h4>Upcoming Events</h4>
+                    <p>EJ Laure eager to start new chapter with Nxled</p>
+                    <img src="imghome/volleyball3.jpg" alt="Champions League" style="width: 100%; border-radius: 10px; margin: 10px 0;">
+                
+                </div>
+
+                <div class="additional-article">
+                    <h4>Upcoming Events</h4>
+                    <p>Cignal overcomes Chery Tiggo, forces 3-way tie at the top</p>
+                    <img src="imghome/volleyball6.jpg" alt="Champions League" style="width: 100%; border-radius: 10px; margin: 10px 0;">
+                
+                </div>
+
+                <div class="additional-article">
+                    <h4>Upcoming Events</h4>
+                    <p>Brooke Van Sickle shines in emotional Ilocos homecoming</p>
+                    <img src="imghome/volleyball7.jpg" alt="Champions League" style="width: 100%; border-radius: 10px; margin: 10px 0;">
+                
+                </div>
+
+                <div class="additional-article">
+                    <h4>Upcoming Events</h4>
+                    <p>PLDT targets solo lead as PVL returns to Pasig</p>
+                    <img src="imghome/volleyball8.jpg" alt="Champions League" style="width: 100%; border-radius: 10px; margin: 10px 0;">
+                
+                </div>
+ 
+                </div>
+            </div>       
+        </section>
+    </main>
+
+   <!-- Footer -->
+    <footer>
+        <div class="social-icons">
+            <a href="https://www.facebook.com" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.linkedin.com" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.instagram.com" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.twitter.com" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p>&copy; 2024 Sports News Daily. All rights reserved.</p>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
+
+
